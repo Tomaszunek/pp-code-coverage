@@ -1,5 +1,6 @@
 const fs = require('fs');
 const excelGenerator = require('node-excel-export');
+const { generateHtmlFileDom } = require('./generateHtml');
 
 const styles = {
     headerDark: {
@@ -40,8 +41,8 @@ const generateJsonFile = (json, type) => {
     writeToFile(`coverage-${type}-report${Date.now()}.json`, JSON.stringify(json));
 }
 
-const generateHtmlFile = (json, type) => {
-
+const generateHtmlFile = (json, type) => {    
+    writeToFile(`coverage-${type}-report${Date.now()}.html`, generateHtmlFileDom(json));
 }
 
 const generateExcelFile = (json, type) => {
@@ -70,7 +71,6 @@ const generateExcelFile = (json, type) => {
             data: generateDataFromEntries(json.entries)
         }
     ]
-    console.log(generateDataFromEntries(json.entries));
     const reportXLSX = excelGenerator.buildExport(excelRaports);
     writeToFile(`coverage-${type}-report${Date.now()}.xlsx`, reportXLSX);
 }

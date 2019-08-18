@@ -1,0 +1,19 @@
+.entry {
+    color: black;
+}
+
+.entry__container {
+    background-color: pink;
+    margin: 20px 0;
+    display: flex;
+}
+
+.entry__container__total {
+    background-color: red;
+    width: 50%;
+}
+
+.entry__container__used {
+    background-color: green;
+    width: 50%;
+}
