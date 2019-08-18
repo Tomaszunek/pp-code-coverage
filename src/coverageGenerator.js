@@ -9,7 +9,9 @@ const coverageGenerator = (coverageArr, type) => {
     }
 
     console.log(`Total Bytes of ${type.toUpperCase()}: ${totalBytes}`);
-    console.log(`Used Bytes of ${type.toUpperCase()}: ${usedBytes}`);   
+    console.log(`Used Bytes of ${type.toUpperCase()}: ${usedBytes}`);
+
+    return coverageReport;
 }
 
 module.exports = {
