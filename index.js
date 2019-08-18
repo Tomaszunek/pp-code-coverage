@@ -4,11 +4,12 @@ const puppeteer = require('puppeteer');
 const request = require('request');
 const util = require('util');
 const configLogin = require('./config/login.json');
+const { coverageGenerator } = require('./src/coverageGenerator');
 
 (async () => {
 
     const loginURL = 'https://github.com/login';
-    const limit = 10;
+    const limit = 2;
     const opts = {
         //chromeFlags: ['--headless'],
         logLevel: 'info',
@@ -64,27 +65,8 @@ const configLogin = require('./config/login.json');
         page.coverage.stopCSSCoverage(),
     ]);
 
-    let totalBytesCSS = 0;
-    let usedBytesCSS = 0;
-    let totalBytesJS = 0;
-    let usedBytesJS = 0;
-    for (const entry of cssCoverage) {
-        totalBytesCSS += entry.text.length;
-        for (const range of entry.ranges)
-            usedBytesCSS += range.end - range.start - 1;
-    }
-
-    console.log(`Total Bytes of CSS: ${totalBytesCSS}`);
-    console.log(`Used Bytes of CSS: ${usedBytesCSS}`);
-
-    for (const entry of jsCoverage) {
-        totalBytesJS += entry.text.length;
-        for (const range of entry.ranges)
-            usedBytesJS += range.end - range.start - 1;
-    }
-
-    console.log(`Total Bytes of CSS: ${totalBytesJS}`);
-    console.log(`Used Bytes of CSS: ${usedBytesJS}`);    
+    coverageGenerator(cssCoverage, 'css');
+    coverageGenerator(jsCoverage, 'js');
 
     await browser.disconnect();
     await chrome.kill();
