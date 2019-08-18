@@ -5,6 +5,7 @@ const request = require('request');
 const util = require('util');
 const configLogin = require('../config/login.json');
 const { coverageGenerator } = require('./coverageGenerator');
+const { generateAllFiles } = require('./fileGenerator');
 
 const cli = async (loginURL, limit, opts) => {
     // Launch chrome using chrome-launcher
@@ -50,8 +51,11 @@ const cli = async (loginURL, limit, opts) => {
         page.coverage.stopCSSCoverage(),
     ]);
 
-    coverageGenerator(cssCoverage, 'css');
-    coverageGenerator(jsCoverage, 'js');
+    const cssCoverageReport = coverageGenerator(cssCoverage, 'css');
+    const jsCoverageReport = coverageGenerator(jsCoverage, 'js');
+
+    generateAllFiles(cssCoverageReport, 'css');
+    generateAllFiles(jsCoverageReport, 'js');
 
     await browser.disconnect();
     await chrome.kill();
